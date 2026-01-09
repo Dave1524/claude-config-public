@@ -1,0 +1,127 @@
+// DOT File Style Guide
+// This file defines styling conventions for process flow diagrams
+// Reference this when creating flowcharts in skills
+
+// ============================================================
+// NODE TYPES AND SHAPES
+// ============================================================
+
+// Decision nodes: diamonds
+// Use for yes/no questions or branching logic
+decision_example [shape=diamond, label="Is condition true?"];
+
+// Action nodes: boxes (default)
+// Use for steps the agent should take
+action_example [shape=box, label="Perform this action"];
+
+// Command nodes: plaintext
+// Use for literal commands to execute
+command_example [shape=plaintext, label="npm run test"];
+
+// State nodes: ellipse
+// Use for describing current state or situation
+state_example [shape=ellipse, label="Test failed"];
+
+// Warning nodes: octagon
+// Use for red flags or stop conditions
+warning_example [shape=octagon, label="STOP: Violation detected"];
+
+// Entry/Exit points: double circle
+// Use for start/end of process
+start_example [shape=doublecircle, label="Start"];
+end_example [shape=doublecircle, label="End"];
+
+// ============================================================
+// EDGE CONVENTIONS
+// ============================================================
+
+// Binary decisions: use "yes" and "no" labels
+// decision -> action_yes [label="yes"];
+// decision -> action_no [label="no"];
+
+// Multiple paths: use descriptive conditions
+// decision -> path_a [label="condition A"];
+// decision -> path_b [label="condition B"];
+// decision -> path_c [label="otherwise"];
+
+// Process triggers: use dotted lines
+// event -> triggered_process [style=dotted];
+
+// ============================================================
+// NAMING PATTERNS
+// ============================================================
+
+// Questions: End with "?"
+// "Is test passing?"
+// "Did agent comply?"
+// "Need more info?"
+
+// Actions: Start with verb
+// "Run tests"
+// "Delete code"
+// "Update skill"
+
+// Commands: Literal syntax
+// "git commit -m 'fix'"
+// "npm run build"
+
+// States: Describe situation
+// "Test failed"
+// "Agent violated rule"
+// "Skill loaded"
+
+// ============================================================
+// DECISION TREE FOR CHOOSING SHAPES
+// ============================================================
+
+digraph shape_selection {
+    rankdir=TB;
+
+    "What are you representing?" [shape=diamond];
+    "Is it a decision/question?" [shape=diamond];
+    "Is it a command to run?" [shape=diamond];
+    "Is it a warning/stop?" [shape=diamond];
+    "Is it start/end point?" [shape=diamond];
+    "Is it a state/situation?" [shape=diamond];
+
+    "Use diamond" [shape=box];
+    "Use plaintext" [shape=box];
+    "Use octagon" [shape=box];
+    "Use doublecircle" [shape=box];
+    "Use ellipse" [shape=box];
+    "Use box (default)" [shape=box];
+
+    "What are you representing?" -> "Is it a decision/question?" [label="start"];
+    "Is it a decision/question?" -> "Use diamond" [label="yes"];
+    "Is it a decision/question?" -> "Is it a command to run?" [label="no"];
+    "Is it a command to run?" -> "Use plaintext" [label="yes"];
+    "Is it a command to run?" -> "Is it a warning/stop?" [label="no"];
+    "Is it a warning/stop?" -> "Use octagon" [label="yes"];
+    "Is it a warning/stop?" -> "Is it start/end point?" [label="no"];
+    "Is it start/end point?" -> "Use doublecircle" [label="yes"];
+    "Is it start/end point?" -> "Is it a state/situation?" [label="no"];
+    "Is it a state/situation?" -> "Use ellipse" [label="yes"];
+    "Is it a state/situation?" -> "Use box (default)" [label="no"];
+}
+
+// ============================================================
+// EXAMPLES: GOOD VS BAD
+// ============================================================
+
+// GOOD: Specific, properly shaped
+digraph good_example {
+    "Test failed?" [shape=diamond];
+    "Run npm test" [shape=plaintext];
+    "Fix the bug" [shape=box];
+    "Tests passing" [shape=ellipse];
+
+    "Test failed?" -> "Fix the bug" [label="yes"];
+    "Test failed?" -> "Tests passing" [label="no"];
+    "Fix the bug" -> "Run npm test";
+    "Run npm test" -> "Test failed?";
+}
+
+// BAD: Vague labels, wrong shapes
+// step1 [shape=box, label="Check"];           // Too vague
+// step2 [shape=box, label="Test failed"];     // Should be ellipse (state)
+// step3 [shape=diamond, label="npm test"];    // Commands aren't decisions

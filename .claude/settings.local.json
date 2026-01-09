@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(dir:*)",
+      "Bash(python:*)",
+      "Bash(ping:*)",
+      "Bash(if not exist \"C:\\\\Users\\\\Sahana R Reddy\\\\finance-app_mvp\\\\tests\" mkdir \"C:\\\\Users\\\\Sahana R Reddy\\\\finance-app_mvp\\\\tests\")",
+      "Bash(mkdir:*)",
+      "Bash(pip install:*)"
+    ]
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true
+  }
+}
